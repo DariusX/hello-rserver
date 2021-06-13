@@ -3,6 +3,7 @@ package hello;
 import org.rosuda.REngine.REXP;
 import org.rosuda.REngine.Rserve.RConnection;
 
+import java.io.InputStream;
 import java.util.Date;
 
 public class HelloRServer {
@@ -29,8 +30,12 @@ public class HelloRServer {
             System.out.println("Attempting to write a Test File: " + filenameToWrite);
             c.createFile(filenameToWrite);
 
+            String sampleScriptName = "/sample/return0.R";
+            InputStream is = c.openFile(sampleScriptName);
+            String fileContents = new String(is.readAllBytes());
+            System.out.println("Contents of "+sampleScriptName+" [" + fileContents+"]");
             //c.assign("serverPath", "/repo/DQF-R/return0.R");
-            c.assign("serverPath", "/sample/return0.R");
+            c.assign("serverPath", sampleScriptName);
             resp = c.eval("source(serverPath)");
 //            resp = c.eval("execute(executionId)");
 
