@@ -20,12 +20,23 @@ public class HelloRServer {
         try {
             REXP resp = null;
             c.assign("executionId", "execid-0001");
-            c.assign("serverPath", "/repo/DQF-R/return0.R");
+
+            //resp = c.parseAndEval("System$getHostname()");
+            //System.out.println(resp.asString());
+
+
+            String filenameToWrite = "/sample/testing-file-creation.txt";
+            System.out.println("Attempting to write a Test File: " + filenameToWrite);
+            c.createFile(filenameToWrite);
+
+            //c.assign("serverPath", "/repo/DQF-R/return0.R");
+            c.assign("serverPath", "/sample/return0.R");
             resp = c.eval("source(serverPath)");
 //            resp = c.eval("execute(executionId)");
 
 
             String R_COMMAND_OR_SOURCE_FILE_PATH = "source(serverPath)";
+            R_COMMAND_OR_SOURCE_FILE_PATH = "System.getHostname()";
             resp = c.parseAndEval(
                     "try(eval(" + R_COMMAND_OR_SOURCE_FILE_PATH + "),silent=TRUE)");
             if (resp.inherits("try-error")) {
