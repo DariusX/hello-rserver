@@ -31,22 +31,26 @@ public class HelloRServer {
             c.createFile(filenameToWrite);
 
             String sampleScriptName = "/sample/return0.R";
+            // sampleScriptName = "/repo/DQF-R/return0.R";
             InputStream is = c.openFile(sampleScriptName);
             String fileContents = new String(is.readAllBytes());
             System.out.println("Contents of "+sampleScriptName+" [" + fileContents+"]");
-            //c.assign("serverPath", "/repo/DQF-R/return0.R");
+
+            //resp = c.eval(fileContents);
+            //System.out.println("Eval Response="+resp.toDebugString());
+
             c.assign("serverPath", sampleScriptName);
-            resp = c.eval("source(serverPath)");
+            resp = c.eval("source(serverPath,  chdir = TRUE)");
 //            resp = c.eval("execute(executionId)");
 
 
-            String R_COMMAND_OR_SOURCE_FILE_PATH = "source(serverPath)";
-            R_COMMAND_OR_SOURCE_FILE_PATH = "System.getHostname()";
-            resp = c.parseAndEval(
-                    "try(eval(" + R_COMMAND_OR_SOURCE_FILE_PATH + "),silent=TRUE)");
-            if (resp.inherits("try-error")) {
-                System.err.println("R Serve Eval Exception : " + resp.asString());
-            }
+//            String R_COMMAND_OR_SOURCE_FILE_PATH = "source(serverPath)";
+//            R_COMMAND_OR_SOURCE_FILE_PATH = "System.getHostname()";
+//            resp = c.parseAndEval(
+//                    "try(eval(" + R_COMMAND_OR_SOURCE_FILE_PATH + "),silent=TRUE)");
+//            if (resp.inherits("try-error")) {
+//                System.err.println("R Serve Eval Exception : " + resp.asString());
+//            }
 
 
         } catch (Exception e) {
