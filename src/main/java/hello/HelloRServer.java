@@ -20,7 +20,6 @@ public class HelloRServer {
         }
         try {
             REXP resp = null;
-            c.assign("executionId", "execid-0001");
 
             //resp = c.parseAndEval("System$getHostname()");
             //System.out.println(resp.asString());
@@ -34,14 +33,18 @@ public class HelloRServer {
             // sampleScriptName = "/repo/DQF-R/return0.R";
             InputStream is = c.openFile(sampleScriptName);
             String fileContents = new String(is.readAllBytes());
-            System.out.println("Contents of "+sampleScriptName+" [" + fileContents+"]");
+            System.out.println("Contents of "+sampleScriptName+" [" + fileContents+"]\n");
 
             //resp = c.eval(fileContents);
             //System.out.println("Eval Response="+resp.toDebugString());
 
             c.assign("serverPath", sampleScriptName);
-            resp = c.eval("source(serverPath,  chdir = TRUE)");
-//            resp = c.eval("execute(executionId)");
+            resp = c.eval("source(serverPath)");
+            System.out.println("Contents after eval source... "+resp.toString()+"]\n");
+
+            c.assign("executionId", "execid-0001");
+            resp = c.eval("execute(executionId)");
+            System.out.println("Contents after eval execute"+resp.toString()+"]\n");
 
 
 //            String R_COMMAND_OR_SOURCE_FILE_PATH = "source(serverPath)";
